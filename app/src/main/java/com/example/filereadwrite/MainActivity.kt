@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStreamReader
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +42,24 @@ class MainActivity : AppCompatActivity() {
 
         // Запрос разрешений при старте
         requestNeededPermission()
+
+        // Чтение файла из папки assets
+        try {
+            val assetManager = assets
+            val inputStream = assetManager.open("test.txt")  // Имя файла в папке assets
+            val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+            val stringBuilder = StringBuilder()
+
+            // Чтение файла построчно
+            bufferedReader.forEachLine { stringBuilder.append(it).append("\n") }
+            val fileContent = stringBuilder.toString()
+
+            // Отображаем содержимое файла в TextView
+            tvData.text = fileContent
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error reading file from assets", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun requestNeededPermission() {
