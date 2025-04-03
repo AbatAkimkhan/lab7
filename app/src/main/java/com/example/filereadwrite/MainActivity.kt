@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Метод для чтения файла
     private fun readFile(): String {
         return try {
             val file = File(filePath)
