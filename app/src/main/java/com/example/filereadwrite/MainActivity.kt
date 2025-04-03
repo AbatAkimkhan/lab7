@@ -39,6 +39,32 @@ class MainActivity : AppCompatActivity() {
         requestNeededPermission() // Запрос разрешений при старте
     }
 
+    private fun writeFile(data: String) {
+        try {
+            val os = FileOutputStream(filePath)
+            os.write(data.toByteArray())
+            os.flush()
+            os.close()
+            Toast.makeText(this, "File written: $filePath", Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error writing file", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun readFile(): String {
+        return try {
+            val file = File(filePath)
+            if (!file.exists()) {
+                return "File not found"
+            }
+            file.readText()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            "Error reading file"
+        }
+    }
+
     private fun requestNeededPermission() {
         if (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -73,32 +99,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "WRITE_EXTERNAL_STORAGE permission NOT granted", Toast.LENGTH_SHORT).show()
             }
-        }
-    }
-
-    private fun writeFile(data: String) {
-        try {
-            val os = FileOutputStream(filePath)
-            os.write(data.toByteArray())
-            os.flush()
-            os.close()
-            Toast.makeText(this, "File written: $filePath", Toast.LENGTH_LONG).show()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(this, "Error writing file", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun readFile(): String {
-        return try {
-            val file = File(filePath)
-            if (!file.exists()) {
-                return "File not found"
-            }
-            file.readText()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            "Error reading file"
         }
     }
 }
