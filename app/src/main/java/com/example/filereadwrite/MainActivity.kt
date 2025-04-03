@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         val btnReadFile = findViewById<Button>(R.id.btnReadFile)
         btnReadFile.setOnClickListener {
-            tvData.text = readFile()
+            tvData.text = readFile() // Чтение данных из файла
         }
 
         requestNeededPermission() // Запрос разрешений при старте
@@ -58,10 +58,10 @@ class MainActivity : AppCompatActivity() {
             if (!file.exists()) {
                 return "File not found"
             }
-            file.readText()
+            file.readText() // Чтение текста из файла
         } catch (e: Exception) {
             e.printStackTrace()
-            "Error reading file"
+            "Error reading file" // Обработка ошибок чтения файла
         }
     }
 
