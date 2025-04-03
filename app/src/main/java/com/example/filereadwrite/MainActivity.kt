@@ -26,17 +26,20 @@ class MainActivity : AppCompatActivity() {
 
         tvData = findViewById(R.id.tvData)
 
+        // Обработчик кнопки "WRITE TO FILE"
         val btnWriteFile = findViewById<Button>(R.id.btnWriteFile)
         btnWriteFile.setOnClickListener {
-            writeFile("Hello: " + Date(System.currentTimeMillis()).toString())
+            writeFile("Hello: " + Date(System.currentTimeMillis()).toString()) // Запись в файл
         }
 
+        // Обработчик кнопки "READ FROM FILE"
         val btnReadFile = findViewById<Button>(R.id.btnReadFile)
         btnReadFile.setOnClickListener {
-            tvData.text = readFile() // Чтение данных из файла
+            tvData.text = readFile() // Чтение из файла
         }
 
-        requestNeededPermission() // Запрос разрешений при старте
+        // Запрос разрешений при старте
+        requestNeededPermission()
     }
 
     private fun writeFile(data: String) {
