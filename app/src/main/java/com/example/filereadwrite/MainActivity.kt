@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var tvData: TextView
     private val REQUEST_CODE_WRITE_PERM = 401
-    private val filePath = Environment.getExternalStorageDirectory().toString() + "/test.txt"
+    // Использование getExternalFilesDir для записи в специальные папки приложения
+    private val filePath = File(getExternalFilesDir(null), "test.txt")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,27 +83,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun writeFile(data: String) {
         try {
+            // Проверяем, существует ли файл, если нет — создаем его
+            if (!filePath.exists()) {
+                filePath.createNewFile()
+            }
             val os = FileOutputStream(filePath)
             os.write(data.toByteArray())
             os.flush()
             os.close()
 
             // Показываем сообщение о успешной записи файла
-            Toast.makeText(this, "File written: $filePath", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "File written: ${filePath.absolutePath}", Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error writing file", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error writing file: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
     // Метод для чтения файла
     private fun readFile(): String {
         return try {
-            val file = File(filePath)
-            if (!file.exists()) {
+            if (!filePath.exists()) {
                 return "File not found"
             }
-            file.readText() // Чтение текста из файла
+            filePath.readText() // Чтение текста из файла
         } catch (e: Exception) {
             e.printStackTrace()
             "Error reading file" // Обработка ошибок чтения файла
