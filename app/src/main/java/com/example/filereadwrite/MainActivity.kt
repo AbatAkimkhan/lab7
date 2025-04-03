@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Метод для обработки результата запроса разрешений
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
