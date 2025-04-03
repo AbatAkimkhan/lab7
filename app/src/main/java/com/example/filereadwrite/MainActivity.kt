@@ -48,6 +48,8 @@ class MainActivity : AppCompatActivity() {
             os.write(data.toByteArray())
             os.flush()
             os.close()
+
+            // Показываем сообщение о успешной записи файла
             Toast.makeText(this, "File written: $filePath", Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
             e.printStackTrace()
