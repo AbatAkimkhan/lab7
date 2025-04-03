@@ -42,6 +42,24 @@ class MainActivity : AppCompatActivity() {
         requestNeededPermission()
     }
 
+    private fun requestNeededPermission() {
+        // Проверка, предоставлено ли разрешение на запись в хранилище
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Если разрешение не предоставлено, запрашиваем его
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                REQUEST_CODE_WRITE_PERM
+            )
+        } else {
+            // Если разрешение уже предоставлено, уведомляем пользователя
+            Toast.makeText(this, "Already have permission", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun writeFile(data: String) {
         try {
             val os = FileOutputStream(filePath)
@@ -67,28 +85,6 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
             "Error reading file" // Обработка ошибок чтения файла
-        }
-    }
-
-    private fun requestNeededPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            ) {
-                Toast.makeText(this, "I need it for File", Toast.LENGTH_SHORT).show()
-            }
-
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                REQUEST_CODE_WRITE_PERM
-            )
-        } else {
-            Toast.makeText(this, "Already have permission", Toast.LENGTH_SHORT).show()
         }
     }
 
